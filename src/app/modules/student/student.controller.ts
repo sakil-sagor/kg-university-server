@@ -9,7 +9,6 @@ import { StudentServices } from './student.service';
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student: studentData } = req.body;
-    console.log(studentData);
 
     // const zodParsedData = createStudentValidationSchema.parse(studentData);
     // console.log(zodParsedData);
@@ -72,11 +71,12 @@ const getallStudent = catchAsync(async (req, res) => {
 
 const deleteStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
+  console.log(studentId);
   const result = await StudentServices.deleteStudentFromDb(studentId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is created successfully',
+    message: 'Student is deleted successfully',
     data: result,
   });
 });
