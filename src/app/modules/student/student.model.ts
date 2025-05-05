@@ -217,9 +217,9 @@ studentSchema.pre('aggregate', function (next) {
 });
 
 // // virtual
-// studentSchema.virtual('fullName').get(function () {
-//   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
-// });
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
 
 // studentSchema.pre('find', async function (next) {
 //   this.find({ isDeleted: { $ne: true } });
