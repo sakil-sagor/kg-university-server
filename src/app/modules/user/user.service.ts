@@ -9,12 +9,13 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   userData.password = password || (config.default_passwrod as string);
   userData.role = 'student';
   //   set user id manually
-
+  userData.id = '2025101';
   const newUser = await User.create(userData);
 
   if (Object.keys(newUser).length) {
     studentData.id = newUser.id;
     studentData.user = newUser._id; //reference _id
+
     const newStudent = await Student.create(studentData);
     return newStudent;
   }

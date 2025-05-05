@@ -1,6 +1,4 @@
-import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import config from '../../config';
 import {
   StudentModel,
   TGuardian,
@@ -8,31 +6,6 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
-
-// const userNameSchema = new Schema<TUserName>(
-//   {
-//     firstName: {
-//       type: String,
-//       required: [true, 'Name is required'],
-//       validate: {
-//         validator: function (value: string) {
-//           const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-//           return firstNameStr === value;
-//         },
-//         message: '{VALUE} is not in capitalization format',
-//       },
-//     },
-//     middleName: {
-//       type: String,
-//     },
-//     lastName: {
-//       type: String,
-//     },
-//   },
-//   {
-//     _id: false,
-//   },
-// );
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -108,10 +81,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'ID is required'],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-    },
+
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
@@ -184,23 +154,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
   },
 );
-
-// pre middleware for saving student data
-studentSchema.pre('save', async function (next) {
-  const user = this;
-  // hasing password
-
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
-});
 
 // pre middleware for get all students data without deleted students
 studentSchema.pre('find', function (next) {
